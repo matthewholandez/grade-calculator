@@ -1,6 +1,31 @@
 import Head from "next/head";
+import React, { useState } from "react";
 
 export default function Home() {
+
+  interface Assignment {
+    assignmentName: string;
+    grade: number;
+    weight: number;
+  }
+
+  const [assignments, setAssignments] = useState<Assignment[]>([]);
+
+  const handleAddAssignment = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+
+    const newAssignment: Assignment = {
+      assignmentName: formData.get("assignmentName") as string,
+      grade: Number(formData.get("grade") as string),
+      weight: Number(formData.get("weight") as string),
+    };
+
+    setAssignments([...assignments, newAssignment]);
+
+    event.currentTarget.reset();
+  };
 
   return (
     <>
@@ -19,28 +44,28 @@ export default function Home() {
               </div>
             </section>
             <section id="calculator" className="w-full max-w-xs sm:max-w-sm md:max-w-md">
-              <form className="flex flex-col gap-1">
+              <form className="flex flex-col gap-1" onSubmit={handleAddAssignment}>
                 <div className="flex flex-col">
                   <label className="text-lg">
                     Assignment name <span className="italic">(optional)</span>
                   </label>
-                  <input className="px-1 py-1 border rounded-md" />
+                  <input className="px-1 py-1 border rounded-md" name="assignmentName"/>
                 </div>
                 <div className="grid grid-cols-2 gap-4 mb-5">
                   <div className="flex flex-col">
                     <label className="text-lg">
                       Grade %
                     </label>
-                    <input className="py-1 px-1 border rounded-md" type="number" max="100" />
+                    <input className="py-1 px-1 border rounded-md" type="number" max="100" name="grade" />
                   </div>
                   <div className="flex flex-col ">
                     <label className="text-lg">
                       Weight
                     </label>
-                    <input className="py-1 px-1 border rounded-md" type="number"/>
+                    <input className="py-1 px-1 border rounded-md" type="number" name="weight"/>
                   </div>
                 </div>
-                <button 
+                <button type="submit"
                   className="text-lg font-semibold bg-gradient-to-r from-teal-500 to-blue-600 w-1/2 mx-auto rounded-lg text-white py-1"
                 >
                   Add Assignment
@@ -50,6 +75,7 @@ export default function Home() {
           </div>
           <div className="flex flex-grow md:min-h-screen md:w-60 lg:w-70 items-center justify-center">
             <section id="results" className="w-full max-w-lg">
+              <div className="max-h-[calc(100vh-6rem)] overflow-auto">
                 <table className="border w-full table-auto">
                   <thead className="bg-slate-900 text-white">
                     <tr>
@@ -59,14 +85,17 @@ export default function Home() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td className="py-2 px-1 border-b border-r">Mathematics</td>
-                      <td className="py-2 px-1 border-b border-r text-center">100%</td>
-                      <td className="py-2 px-1 border-b text-center">1</td>
-                    </tr>
+                    {assignments.map((assignment, index) => (
+                      <tr key={index}>
+                        <td className="py-2 px-1 border-b border-r">{assignment.assignmentName}</td>
+                        <td className="py-2 px-1 border-b border-r text-center">{assignment.grade}%</td>
+                        <td className="py-2 px-1 border-b text-center">{assignment.weight}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
-            </section>
+              </div>
+          </section>
           </div>
         </div>
       </main>
