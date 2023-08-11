@@ -7,8 +7,8 @@ export default function Home() {
       <Head>
         <title>Grade Calculator</title>
         <meta name="description" content="Calculate your weighted average and what grades are needed to achieve a different overall mark." />
-        <meta name="robots" content="noindex" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="robots" content="noindex" /> {/* TODO: REMOVE THIS WHEN DONE */}
+        <link rel="icon" href="/favicon.ico" /> 
       </Head>
       <main>
         <div className="flex flex-col md:flex-row mt-5 md:mt-0 px-10 gap-10">
