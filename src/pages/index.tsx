@@ -7,6 +7,7 @@ export default function Home() {
       <Head>
         <title>Grade Calculator</title>
         <meta name="description" content="Calculate your weighted average and what grades are needed to achieve a different overall mark." />
+        <meta name="robots" content="noindex" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
