@@ -12,6 +12,13 @@ export default function Home() {
   }
 
   const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [weightedAvg, setWeightedAvg] = useState(0);
+
+  const returnWeightedAverage = (a: Assignment[]) => {
+    const grades = a.reduce((a, v) => a + (v.grade * v.weight), 0);
+    const weights = a.reduce((a, v) => a + v.weight, 0);
+    return grades / weights;
+  }
 
   const handleAddAssignment = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,10 +31,10 @@ export default function Home() {
     };
 
     setAssignments([...assignments, newAssignment]);
+    setWeightedAvg(returnWeightedAverage([...assignments, newAssignment]));
 
     event.currentTarget.reset();
   };
-
 
   return (
     <>
@@ -36,7 +43,7 @@ export default function Home() {
         {assignments.length > 0 ? (
           <div className="flex flex-col md:flex-row mt-5 md:mt-0 px-10 gap-10">
             <Form onSubmit={handleAddAssignment} />
-            <Table assignments={assignments} />
+            <Table assignments={assignments} average={Number(weightedAvg.toFixed(2))} />
           </div>
         ) : (
           <div className="flex mt-5 px-10 gap-10">
