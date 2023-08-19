@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Head from '../components/Head';
-import Form from '../components/Form';
-import FormCenter from '../components/FormCenter';
+import { Form, FormCenter } from '../components/Form';
 import Table from '../components/Table'
 
 export default function Home() {
